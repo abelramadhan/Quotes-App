@@ -1,6 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { QuotesApi } from './api/QuotesApi';
-import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
+import {
+    persistStore,
+    persistReducer,
+    PersistConfig,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import FavoriteQuotessReducer from './slices/favoritesSlice';
 import CustomQuotesSlice from './slices/customSlice';
@@ -21,7 +31,12 @@ export const store = configureStore({
             [CustomQuotesSlice.name]: CustomQuotesSlice.reducer,
         })
     ),
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([QuotesApi.middleware]),
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }).concat([QuotesApi.middleware]),
 });
 
 setupListeners(store.dispatch);

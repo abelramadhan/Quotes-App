@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang='en'>
-            <ReduxWrapper>
-                <body className={inter.className}>{children}</body>
-            </ReduxWrapper>
+            <body className={inter.className}>
+                <ReduxWrapper>{children}</ReduxWrapper>
+            </body>
         </html>
     );
 }
